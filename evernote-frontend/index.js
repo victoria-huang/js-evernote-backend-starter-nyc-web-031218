@@ -134,6 +134,21 @@ function patchNote(title, body, note) {
   }).then(res => res.json()).then(json => showNote(json))
 }
 
+function deleteNote(note) {
+  let noteListEle = document.getElementById(`note-id-${note.id}`)
+  noteListEle.remove()
+  let showDiv = document.getElementById('show-note')
+  showDiv.remove()
+
+  fetch(`http://localhost:3000/api/v1/notes/${note.id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type':'application/json'
+    }
+  })
+}
+
+
 function showNote(note){
   if (document.getElementById("show-note") !== null) {
     document.getElementById("show-note").remove()
@@ -160,7 +175,9 @@ function showNote(note){
   let delButton = document.createElement('button')
   delButton.setAttribute("id", "delete-button")
   delButton.innerText = "Delete Note"
-  delButton.setAttribute("onclick", "deleteNote()")
+  delButton.addEventListener('click', (event) => {
+    deleteNote(note);
+  })
 
   showDiv.append(header, para, editButton, delButton)
   noteShowPage.append(showDiv)
