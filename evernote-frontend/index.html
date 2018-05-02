@@ -3,9 +3,33 @@
   <head>
     <meta charset="utf-8">
     <title>Flatiron Evernote Clone</title>
+    <style type="text/css">
+      html,body{margin:0;padding:0}
+      body{font: 76% arial,sans-serif;}
+      p{margin:0 10px 10px}
+      div#header{background-color:#F3F2ED;}
+      h1 {height:80px;line-height:80px;margin:0;padding-left:10px;}
+      div#container{text-align:left}
+      /* div#note-show-page p{line-height:1.4} */
+      div#note-side-bar{background:#F6F0E0;}
+      div#note-side-bar ul{margin:15px 0; padding:10; list-style-type:none;}
+      div#note-side-bar li{margin-bottom:5px;}
+      div#extra{background:#CCC8B3;}
+      div#footer{background:#BFBD93;}
+      div#footer p{margin:0;padding:5px 10px}
+      /* div#container{width:700px;margin:0 auto} */
+      div#note-show-page{float:right;width:820px}
+      div#note-side-bar{float:left;width:200px}
+      div#extra{float:right;width:500px}
+      div#footer{clear:both;width:100%}
+    </style>
   </head>
   <body>
-    <h1>Welcome to NeverNote!</h1>
+    <div id="container">
+      <div id="header">
+        <h1>Welcome to NeverNote!</h1>
+      </div>
+    </div>
     <div id="index-page">
       <h2>Login</h2>
       <form id="login-form" action="#" method="post">

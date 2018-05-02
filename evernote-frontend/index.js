@@ -84,8 +84,11 @@ function showUser(user) {
   button.setAttribute('id', "create-note")
   button.setAttribute("onclick", `handleNewNote(${user.id})`)
   button.innerText = "Create a Note"
-  welcomePage.append(button)
-  welcomePage.innerHTML += "<div id='note-side-bar'><h3>Notes: </h3><ol id='note-list'></ol></div>";
+  // welcomePage.append(button)
+  welcomePage.innerHTML += "<div id='note-side-bar'></div>"
+  let sideBar = document.getElementById("note-side-bar");
+  sideBar.append(button);
+  sideBar.innerHTML += "<h3>Notes: </h3><ol id='note-list'></ol></div>";
   welcomePage.innerHTML += "<div id='note-show-page'></div>"
 
   let noteList = document.getElementById('note-list')
