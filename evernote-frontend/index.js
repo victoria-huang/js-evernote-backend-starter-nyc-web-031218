@@ -54,7 +54,7 @@ function handleNewNote(userId) {
   }
 
   let noteShowPage = document.getElementById("note-show-page")
-  let noteFormDiv = "<div id='new-note-form'> <h1>Create a New Note!</h1> <form id='create-note-form' action='#' method='post'><label for='new-note-title'>Title: </label><input required type='text' id='new-note-title' placeholder='title'><br><br><label for='new-note-body'>Content: </label><input required type='text' id='new-note-body' placeholder='content'><br><br><input type='submit' value='Create New Note'></form></div>"
+  let noteFormDiv = "<div id='new-note-form'> <h1>Create a New Note!</h1> <form id='create-note-form' action='#' method='post'><label for='new-note-title'>Title: </label><textarea required type='text' id='new-note-title' placeholder='title'></textarea><br><br><label for='new-note-body'>Content: </label><textarea required type='text' id='new-note-body' placeholder='content'></textarea><br><br><input type='submit' value='Create New Note'></form></div>"
   noteShowPage.innerHTML += noteFormDiv;
 
   let noteForm = document.getElementById("create-note-form");
@@ -144,7 +144,7 @@ function editNote(note) {
   }
 
   let noteShowPage = document.getElementById("note-show-page")
-  let noteEditFormDiv = `<div id='edit-note-form'> <h1>Edit Post!</h1> <form id='create-note-form' action='#' method='patch'><label for='edit-note-title'>Title: </label><input required type='text' id='edit-note-title' value=${note.title}><br><br><label for='edit-note-body'>Content: </label><input required type='text' id='edit-note-body' value=${note.body}><br><br><input type='submit' value='Edit Post'></form></div>`
+  let noteEditFormDiv = `<div id='edit-note-form'> <h1>Edit Note!</h1> <form id='create-note-form' action='#' method='patch'><label for='edit-note-title'>Title: </label><textarea required type='text' id='edit-note-title'>${note.title}</textarea><br><br><label for='edit-note-body'>Content: </label><textarea required type='text' id='edit-note-body'>${note.body}</textarea><br><br><input type='submit' value='Edit Note'></form></div>`
   noteShowPage.innerHTML += noteEditFormDiv;
 
   let noteEditForm = document.getElementById('edit-note-form');
