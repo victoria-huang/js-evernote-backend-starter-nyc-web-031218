@@ -5,8 +5,16 @@
     <title>Flatiron Evernote Clone</title>
   </head>
   <body>
+    <h1>Welcome to NeverNote!</h1>
     <div id="index-page">
-      <h1>Create a New User!</h1>
+      <h2>Login</h2>
+      <form id="login-form" action="#" method="post">
+       <label for="user-name">Name: </label>
+       <input required type="text" id="user-name" name="user-name" placeholder="name">
+       <input type="submit" value="Login">
+      </form>
+
+      <h2>Or Create a New User</h2>
       <form id="create-user-form" action="#" method="post">
        <label for="new-user-name">Name: </label>
        <input required type="text" id="new-user-name" name="new-user-name" placeholder="name">

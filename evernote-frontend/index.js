@@ -2,12 +2,25 @@ document.addEventListener('DOMContentLoaded', () => {
   let newUserForm = document.getElementById("create-user-form");
   newUserForm.addEventListener('submit', handleNewUser)
 
+  let loginForm = document.getElementById("login-form");
+  loginForm.addEventListener('submit', handleExistingUser)
+
+  function handleExistingUser(event) {
+    event.preventDefault();
+    let name = document.getElementById("user-name").value;
+    fetch('http://localhost:3000/api/v1/users').then(res => res.json()).then(json => findExistingUser(json, name)).then(user => showUser(user))
+  }
+
   function handleNewUser(event) {
     event.preventDefault();
     let name = document.getElementById("new-user-name").value;
     createUser(name);
   }
 })
+
+function findExistingUser(users, name) {
+  return users.find((user) => { return user.name === name; })
+}
 
 function createUser(name) {
   let newUser = { name: name }
@@ -31,7 +44,7 @@ function getUser(user) {
     .then(json => showUser(json));
 }
 
-function handleNewNote() {
+function handleNewNote(userId) {
   if (document.getElementById("show-note") !== null) {
     document.getElementById("show-note").remove()
   } else if (document.getElementById("new-note-form") !== null) {
@@ -53,7 +66,10 @@ function handleNewNote() {
     let body = document.getElementById("new-note-body").value;
     let noteFormDiv = document.getElementById("new-note-form");
     noteFormDiv.remove();
-    createNote(title, body);
+    if (document.getElementById("empty-note-message") !== null) {
+      document.getElementById("empty-note-message").remove()
+    }
+    createNote(title, body, userId);
   }
 }
 
@@ -63,20 +79,38 @@ function showUser(user) {
   let name = user.name;
   let p = document.createElement('p');
   p.innerHTML = `User: ${name}`;
-  let welcome = document.createElement('h1');
-  welcome.innerText = "Welcome to NeverNote!";
-  welcomePage.append(welcome, p);
+  welcomePage.append(p);
   let button = document.createElement('button')
   button.setAttribute('id', "create-note")
-  button.setAttribute("onclick", "handleNewNote()")
+  button.setAttribute("onclick", `handleNewNote(${user.id})`)
   button.innerText = "Create a Note"
   welcomePage.append(button)
   welcomePage.innerHTML += "<div id='note-side-bar'><h3>Notes: </h3><ol id='note-list'></ol></div>";
   welcomePage.innerHTML += "<div id='note-show-page'></div>"
+
+  let noteList = document.getElementById('note-list')
+  if (user.notes.length === 0) {
+    let noteMessage = document.createElement('p');
+    noteMessage.setAttribute("id", "empty-note-message")
+    noteMessage.innerText = "You currently have no notes"
+    noteList.append(noteMessage)
+  } else {
+    user.notes.forEach((note) => {
+      let noteListEle = document.createElement("li")
+      noteListEle.setAttribute("id", `note-id-${note.id}`);
+      noteListEle.innerText = `${note.title}`
+
+      noteListEle.addEventListener('click', function(event){
+        getNote(note)
+      })
+
+      noteList.append(noteListEle);
+    });
+  }
 }
 
-function createNote(title, body) {
-  let newNote = { title: title, body: body, user_id: 1 }
+function createNote(title, body, userId) {
+  let newNote = { title: title, body: body, user_id: userId }
 
   fetch('http://localhost:3000/api/v1/notes', {
     method: 'POST',
@@ -140,6 +174,14 @@ function deleteNote(note) {
   let showDiv = document.getElementById('show-note')
   showDiv.remove()
 
+  if (document.querySelector('#note-list li') === null) {
+    let noteList = document.getElementById('note-list')
+    let noteMessage = document.createElement('p');
+    noteMessage.setAttribute("id", "empty-note-message")
+    noteMessage.innerText = "You currently have no notes"
+    noteList.append(noteMessage)
+  }
+
   fetch(`http://localhost:3000/api/v1/notes/${note.id}`, {
     method: 'DELETE',
     headers: {
@@ -147,7 +189,6 @@ function deleteNote(note) {
     }
   })
 }
-
 
 function showNote(note){
   if (document.getElementById("show-note") !== null) {
